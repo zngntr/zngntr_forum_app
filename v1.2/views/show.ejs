@@ -1,0 +1,15 @@
+<% include partials/header %>
+
+<h2><%= contents.name %></h2>
+ 
+<img src="<%= contents.image %>">
+ 
+<p><%= contents.description %></p>
+
+<a href="/all_contents">Tüm yazılar</a>
+
+<% contents.comments.forEach(function(comment){ %>
+    <p><strong><%= comment.author %></strong> - <%= comment.text %></p>
+<% }) %>
+
+<% include partials/footer %>
