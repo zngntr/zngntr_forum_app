@@ -1,0 +1,30 @@
+<% include ../partials/header %> 
+ <div class="container">
+     <header class="jumbotron">
+         <div class="container">
+             <h1>Foruma Hoşgeldiniz</h1>
+             <p>Zihinlerden Ekranlara</p>
+             <p>
+                <a class="btn btn-primary btn-large" href="/contents/new">Yeni Gönderi Oluştur</a>
+             </p>
+         </div>
+     </header>
+     
+     <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+        <% contents.forEach(function(content){ %>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                   <img src="<%= content.image %>">
+                   <div class="caption">
+                       <h4><%= content.name %></h4>
+                   </div>
+                   <p>
+                       <a href="/contents/<%= content._id %>" class="btn btn-primary">Daha Fazla</a>
+                   </p>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</div>
+
+<% include ../partials/footer %>

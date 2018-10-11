@@ -1,0 +1,27 @@
+<% include ../partials/header %>
+
+
+<div class="container">
+    <h3>Yeni yazı oluştur</h3>
+    <form action= "/all_contents" method= "POST">
+        
+        <div class="form-group">
+            <input class= "form-control" type= "text" name="name" placeholder= "Başlık">
+        </div>
+        
+        <div class="form-group">
+            <input class="form-control" type= "url" name="image" placeholder= "resim url" required >
+        </div>
+        
+        <div class="form-group">
+            <input class="form-control" type= "text" name="description" placeholder= "gönderiyi yaz" required >
+        </div>
+        
+        <div class="form-group">
+            <button class="btn btn-info">Gönder</button>
+        </div>
+        
+    </form>
+    <a href="/all_contents">Tüm Yazılar</a>
+</div>
+<% include ../partials/footer %>

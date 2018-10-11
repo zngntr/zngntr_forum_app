@@ -7,18 +7,18 @@ var express     = require("express"),
 //    removeEverything      = require("./seeds");
 
     
-mongoose.connect('mongodb://localhost:27017/forum_db', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost:27017/forum_db_2', { useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 //removeEverything();
 
 
-/*
+
 BlogContent.create(
       {
           name: "Burcu Adıvar", 
           image: "https://neilpatel.com/wp-content/uploads/2017/02/blogging.jpg",
-          description: "Buraya geilyorrrdhjkhdlshdl :))",
+          description: "açıklama kısmı",
           comments: []
       },
       function(err, blog){
@@ -42,7 +42,7 @@ BlogContent.create(
        }
      });
 
-*/
+
 
 
 

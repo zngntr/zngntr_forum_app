@@ -6,10 +6,12 @@
  
 <p><%= contents.description %></p>
 
-<a href="/all_contents">Tüm yazılar</a>
 
 <% contents.comments.forEach(function(comment){ %>
     <p><strong><%= comment.author %></strong> - <%= comment.text %></p>
 <% }) %>
 
+
+<!--<a href="/all_contents">Tüm yazılar</a>
+-->
 <% include partials/footer %>

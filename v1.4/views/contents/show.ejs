@@ -1,0 +1,17 @@
+<% include ../partials/header %>
+<h1><%=content.name%></h1>
+
+<img src="<%= content.image %>">
+
+<p><%= content.description %></p>
+
+<p>
+    <a class="btn btn-success" href="/contents/<%= content._id %>/comments/new">Yeni Yorum Ekle</a>
+</p>
+
+<% content.comments.forEach(function(comment){ %>
+    <p>
+        <strong><%= comment.author %></strong> - <%= comment.text %>
+    </p>
+<% }) %>
+<% include ../partials/footer %>

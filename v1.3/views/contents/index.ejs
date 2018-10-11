@@ -1,0 +1,28 @@
+<% include ../partials/header %>
+<div class="container">
+    <header class = "jumbotron">
+        <div class= "container">
+            <h2>Tüm  yazılar</h2>
+            <p>kısa özet buraya gelecek</p>
+            <p>
+                <a class= "btn btn-info" href="/all_contents/new">Yeni Yazı Oluştur</a>
+            </p>
+        </div>
+    </header>
+    <div class= "row text-center" style ="display:filex; flex-wrap: wrap">
+        <% contents.forEach(function(content) { %>
+            <div class="col-6 col-md-4">
+                <div class="caption">
+                    <h4><%= content.name %></h4>
+                </div>
+                <div class= "rounded mx-auto d-block">
+                    <img src = "<%= content.image %>" class ="img-thumbnail">
+                </div>
+                <p>
+                    <a href="all_contents/<%= content._id %>" class="btn btn-outline-info">Daha fazla</a>
+                </p>
+            </div>
+        <% }); %>
+    </div>
+</div>
+<% include ../partials/footer %>

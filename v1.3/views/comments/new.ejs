@@ -1,0 +1,23 @@
+<% include ../partials/header %>
+
+
+<div class="container">
+    <h3>Yorum yaz <%= content.name %></h3>
+    <form action= "/all_contents/<%=content._id%>/comment" method= "POST">
+        
+        <div class="form-group">
+            <input class= "form-control" type= "text" name="comment[text]" placeholder= "yorum yaz...">
+        </div>
+        
+        <div class="form-group">
+            <input class="form-control" type= "text" name="comment[author]" placeholder= "yazar" required >
+        </div>
+        
+        <div class="form-group">
+            <button class="btn btn-info">Gönder</button>
+        </div>
+        
+    </form>
+    <a href="/all_contents">Tüm Yazılar</a>
+</div>
+<% include ../partials/footer %>
