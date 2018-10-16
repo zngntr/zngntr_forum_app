@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var Content = require("../models/content");
+var middleware = require("../middleware");
 
 // >>------------INDEX - show all contents------------
 
@@ -21,7 +22,7 @@ router.get("/", function(req, res) {
 
 // >>---------CREATE - add new content to DB----------
 
-router.post("/", isLoggedIn, function(req, res) {
+router.post("/", middleware.isLoggedIn, function(req, res) {
     // get data from form and add to contents array
     var name = req.body.name;
     var image = req.body.image;
@@ -48,7 +49,7 @@ router.post("/", isLoggedIn, function(req, res) {
 
 // >>-------NEW - show form to create new content-----
 
-router.get("/new", isLoggedIn, function(req, res) {
+router.get("/new", middleware.isLoggedIn, function(req, res) {
     res.render("contents/new");
 });
 
@@ -75,7 +76,7 @@ router.get("/:id", function(req, res) {
 
 // >>-------------- EDIT CONTENT ROUTE ---------------
 
-router.get("/:id/edit", checkContentOwnership, function(req, res) {
+router.get("/:id/edit", middleware.checkContentOwnership, function(req, res) {
     Content.findById(req.params.id, function(err, foundContent) { // error is unexpected becouse of middleware
         res.render("contents/edit", { content: foundContent });
     });
@@ -84,7 +85,7 @@ router.get("/:id/edit", checkContentOwnership, function(req, res) {
 
 
 // >>---------------UPDATE CONTENT ROUTE -------------
-router.put("/:id", checkContentOwnership, function(req, res) {
+router.put("/:id", middleware.checkContentOwnership, function(req, res) {
     // find and update the correct content
     Content.findByIdAndUpdate(req.params.id, req.body.content, function(err, updatedContent) {
         if (err) {
@@ -102,7 +103,7 @@ router.put("/:id", checkContentOwnership, function(req, res) {
 
 // >>------------- DESTROY CONTENTS ------------------
 
-router.delete("/:id", checkContentOwnership, function(req, res) {
+router.delete("/:id", middleware.checkContentOwnership, function(req, res) {
     Content.findByIdAndRemove(req.params.id, function(err) {
         if (err) {
             res.redirect("/contents");
@@ -115,37 +116,6 @@ router.delete("/:id", checkContentOwnership, function(req, res) {
 
 // <<-------------------------------------------------
 
-// >>---------------- MIDDLEWARE ---------------------
 
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login");
-}
-
-function checkContentOwnership(req, res, next) {
-    if (req.isAuthenticated()) {
-        Content.findById(req.params.id, function(err, foundContent) {
-            if (err) {
-                res.redirect("/contents");
-            }
-            else {
-                // does user own content?
-                if (foundContent.author.id.equals(req.user._id)) {
-                    next();
-                }
-                else {
-                    res.redirect("back");
-                }
-            }
-        });
-    }
-    else {
-        res.redirect("back");
-    }
-}
-
-// <<-------------------------------------------------
 
 module.exports = router;
