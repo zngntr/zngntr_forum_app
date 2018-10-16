@@ -56,6 +56,52 @@ router.post("/", isLoggedIn, function(req, res){
 // <<-------------------------------------------------
 
 
+// >>--------------- COMMENT EDIT --------------------
+
+router.get("/:comment_id/edit", checkCommentOwnership, function(req, res){
+    Comment.findById(req.params.comment_id, function(err, foundComment) {
+        if(err) {
+            res.redirect("back");
+        } else {
+            res.render("./comments/edit", {content_id: req.params.id, comment: foundComment});
+        }
+    });
+    
+});
+
+// <<-------------------------------------------------
+
+
+// >>-------------- COMMENT UPDATE -------------------
+
+router.put("/:comment_id", checkCommentOwnership, function(req, res){
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
+        if(err) {
+            res.redirect("back");
+        } else {
+            res.redirect("/contents/" + req.params.id);
+        }
+    });
+});
+
+// <<-------------------------------------------------
+
+
+// >>-------------- COMMENT DESTROY ------------------
+
+router.delete("/:comment_id",checkCommentOwnership, function(req, res){
+    Comment.findByIdAndRemove(req.params.comment_id, function(err){
+        if(err) {
+            res.redirect("back");
+        } else {
+            res.redirect("/contents/" + req.params.id);
+        }
+    });
+});
+
+// <<-------------------------------------------------
+
+
 // >>---------------- MIDDLEWARE ---------------------
 
 function isLoggedIn(req, res, next) {
@@ -63,7 +109,29 @@ function isLoggedIn(req, res, next) {
         return next();
     }
     res.redirect("/login");
-};
+}
+
+function checkCommentOwnership(req, res, next) {
+    if (req.isAuthenticated()) {
+        Comment.findById(req.params.comment_id, function(err, foundComment) {
+            if (err) {
+                res.redirect("/contents");
+            }
+            else {
+                // does user own comment?
+                if (foundComment.author.id.equals(req.user._id)) {
+                    next();
+                }
+                else {
+                    res.redirect("back");
+                }
+            }
+        });
+    }
+    else {
+        res.redirect("back");
+    }
+}
 
 // <<-------------------------------------------------
 
