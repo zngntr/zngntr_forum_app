@@ -1,0 +1,44 @@
+<% include ../partials/header %>
+    <h1>
+        <%=content.name%>
+    </h1>
+
+    <img src="<%= content.image %>">
+
+    <p>
+        <%= content.description %>
+    </p>
+
+    <p>Oluşturan: <a href="#"><strong><em><%= content.author.username %></em></strong></a></p>
+    
+    <% if(currentUser && content.author.id.equals(currentUser._id)){ %>
+
+    <a class="btn btn-warning" href="<%= content._id %>/edit">Düzenle</a>
+
+    <form action="/contents/<%= content._id %>?_method=DELETE" method="POST">
+        <button class="btn btn-danger">Sil</button>
+    </form>
+    
+    <% } %>
+
+    <p>
+        <a class="btn btn-success" href="/contents/<%= content._id %>/comments/new">Yeni Yorum Ekle</a>
+    </p>
+
+    <% content.comments.forEach(function(comment){ %>
+        <p>
+            <a href="#"><strong><%= comment.author.username %></strong></a> -
+            <%= comment.text %>
+        </p>
+   
+        
+         <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+         
+        <a href = "/contents/<%= content._id %>/comments/<%= comment._id %>/edit" class="btn btn-xs btn-warning">Yorumu Düzenle</a>
+        <form action = "/contents/<%= content._id %>/comments/<%= comment._id %>?_method=DELETE"  method= "POST">
+            <button class="btn btn-xs btn-danger">Yorumu Sil</button>
+        </form>
+    <% } %>
+      <% }) %>   
+<% include ../partials/footer %>
+
